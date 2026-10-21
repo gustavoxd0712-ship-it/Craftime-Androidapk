@@ -2,6 +2,7 @@ package com.craftime.game;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Build;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -18,6 +19,7 @@ public class MainActivity extends Activity {
 
         gameView = new WebView(this);
         gameView.setBackgroundColor(0xFF1A1A2E);
+        gameView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         gameView.setWebViewClient(new WebViewClient());
         gameView.setWebChromeClient(new WebChromeClient());
 
@@ -31,6 +33,12 @@ public class MainActivity extends Activity {
         settings.setSupportZoom(false);
         settings.setBuiltInZoomControls(false);
         settings.setDisplayZoomControls(false);
+        settings.setLoadsImagesAutomatically(true);
+        settings.setBlockNetworkImage(false);
+        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            gameView.setRendererPriorityPolicy(android.webkit.WebView.RENDERER_PRIORITY_BOUND, true);
+        }
 
         setContentView(gameView);
         gameView.loadUrl("file:///android_asset/index.html");
